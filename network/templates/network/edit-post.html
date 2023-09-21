@@ -1,0 +1,35 @@
+{% extends 'network/layout.html' %}
+
+
+{% block body %}
+<form action="{% url 'edit-post' post.id %}" method="post">
+    {% csrf_token %}
+    <div class="form-group">
+        
+        {% if message %}
+            <h5>{{message}}</h5>
+        {% endif %}
+        <label for="author-select">Author</label>
+        <select class="form-control" id="author-select" disabled>
+          <option value="{{post.author}}">{{post.author}}</option>
+        </select>
+        <div class="form-group">
+            <label for="message_textarea">Post</label>
+            <textarea class="form-control" name="message" id="message_textarea" rows="3">
+                {{post.message}}
+            </textarea>
+          </div>
+          
+          {% if user == post.author %}
+            <input type="submit" value="Edit post" class="btn btn-primary">
+            {% else %}
+            <p><strong>You have no authorisation to edit this page</strong></p>
+          {% endif %}
+</form>
+
+{% if user == post.author %}
+   <a href="{% url 'delete-post' post.id %}" class="btn btn-danger">Delete this post!</a> 
+{% endif %}
+    
+
+{% endblock body %}

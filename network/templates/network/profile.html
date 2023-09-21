@@ -1,0 +1,58 @@
+{% extends 'network/layout.html' %}
+
+
+{% block body %}
+<div class="container">
+    <div class="row">
+    <div class="col-xs-12 col-md-4 col-lg-12">
+    	<div class="widget panel">
+    	  <div class="panel-body">
+    	    <hr>
+    	    <ul class="list-table">
+    	      <li style="width:70px;">
+    	        <img class="img-circle img-bordered-primary" src="https://bootdey.com/img/Content/avatar/avatar6.png" alt="" width="65px" height="65px">
+    	      </li>
+    	      <li class="text-left">
+    	        <h5 class="semibold ellipsis nm">@{{user}}</h5>
+              <p class="text-muted nm"> {{posts_length}} post(s) |{{user_followers}} followers | {{user_following}} following </p>
+    	      </li>
+    	    </ul>
+    	  </div>
+          <br>
+          <br>
+          <br>
+    	  <ul class="list-group">
+            
+            {% for post in posts %}
+            <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">{{post.author}}</h5>
+                  <h6 class="card-subtitle mb-2 text-muted">@{{post.author}}</h6>
+                  <p class="card-text">{{post.message}}</p>
+                  <p>
+                    <small class="text-muted">{{post.created_at}} | <a href="/like-post?post_id={{post.id}}">
+                        <svg width="25px" height="25px" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="48" height="48" fill="white" fill-opacity="0.01"/>
+                            <path d="M15 8C8.92487 8 4 12.9249 4 19C4 30 17 40 24 42.3262C31 40 44 30 44 19C44 12.9249 39.0751 8 33 8C29.2797 8 25.9907 9.8469 24 12.6738C22.0093 9.8469 18.7203 8 15 8Z" fill="#2F88FF" stroke="#000000" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                    </a>
+                    {% if post.no_of_likes < 2 and post.no_of_likes != 0 %}
+                    Liked by {{post.no_of_likes}} person.
+                    {%else%}
+                    Liked by {{post.no_of_likes}} people.
+                     {% endif %}
+                    
+                </small>
+                
+                {% if user == post.author %}
+                | <a href="{% url 'edit-post' post.id %}">Edit</a>| <a href="{% url 'delete-post' post.id %}">Delete post</a>
+                {% endif %}
+                  </p>
+                </div>
+              </div>
+            {% endfor %}              
+    	  </ul>
+    	</div>
+    </div>
+{% endblock body %}
+    
